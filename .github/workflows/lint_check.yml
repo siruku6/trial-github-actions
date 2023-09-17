@@ -1,0 +1,26 @@
+name: Lint check
+
+on:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  flake8:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+
+      - name: Install dependencies
+        run: pip install flake8
+
+      - name: Setup flake8 annotations
+        uses: rbialon/flake8-annotations@v1
+
+      - name: flake8
+        # Check only whether complexity is over 20 or not
+        run: flake8 --select C901 --max-complexity 20 --exclude=you_wanna_exclude/
